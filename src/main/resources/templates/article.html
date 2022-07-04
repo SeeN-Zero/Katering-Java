@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar"></div>
+    <!-- End of Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <div th:replace="fragments/topbar"></div>
+            <!-- End of Topbar -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Content Row -->
+                <div class="col">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row">
+                                <div class="col-md">
+                                    <h3 class="m-0 font-weight-bold text-primary">
+                                        Tabel Artikel
+                                    </h3>
+                                </div>
+                                <div class="colmd"><a href="#add" class="btn btn-success btn-icon-split"
+                                                      data-toggle="modal">
+                                        <span class="icon text-white-50">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </span>
+                                    <span class="text">Tambah Artikel</span>
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 15%">Judul</th>
+                                        <th style="width: 70%">Deskripsi Singkat</th>
+                                        <th style="width: 10%">Aksi</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="article : ${articles}">
+                                        <td th:text="${article.title}"></td>
+                                        <td th:text="${article.caption}"></td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <a th:href="${'#update-'+article.id}"
+                                                       data-toggle="modal">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </a></div>
+                                                <div class="col-3">
+                                                    <a th:href="${'#delete-'+article.id}"
+                                                       data-toggle="modal">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a></div>
+                                            </div>
+                                        </td>
+                                        <div th:replace="fragments/articlemodal"></div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+        <!-- Footer -->
+        <div th:replace="fragments/footer"></div>
+        <!-- End of Footer -->
+    </div>
+</div>
+
+<div th:replace="fragments/logout"></div>
+</body>
+<div id="add" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <form th:action="@{/article/add}" th:object="${article}" method="POST"
+                  enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Artikel</h4>
+                    <button
+                            class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="title">Judul Artikel</label>
+                        <input th:field="*{title}" class="form-control" type="text" id="title"
+                               placeholder="Judul Artikel" name="title"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="caption">Deskripsi Singkat</label>
+                        <input th:field="*{caption}" class="form-control" type="text" id="caption"
+                               placeholder="Deskripsi Singkat" name="caption" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="summernoteAdd">Isi Artikel</label>
+                        <textarea th:field="*{content}" class="form-control" id="summernoteAdd" name="content"
+                                  placeholder="Isi Artikel"
+                                  required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Batal
+                        </button>
+                        <button type="submit" class="btn btn-success">Tambah Artikel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,82 @@
+<!-- Edit Modal HTML -->
+<div th:attr="id=${'update-'+article.id}" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <form th:action="@{/article/update/{id}(id=${article.id})}" th:object="${articleUpdate}" method="POST"
+                  enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ubah Artikel</h4>
+                    <button
+                            class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="title">Judul Artikel</label>
+                        <input th:value="${article.title}" class="form-control" type="text"
+                               id="title" name="title" placeholder="Judul Artikel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="caption">Deskripsi Singkat</label>
+                        <input th:value="${article.caption}" class="form-control" type="text"
+                               id="caption" name="caption" placeholder="Deskripsi Singkat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="summernote">Isi Artikel</label>
+                        <script th:inline="javascript">
+                            $(document).ready(function () {
+                                /*<![CDATA[*/
+                                $('#summernote').summernote({
+                                    height: 300,
+                                    minHeight: 300
+                                }).summernote('code',/*[[${article.content}]]*/);
+                            });
+                            /*]]>*/
+                        </script>
+                        <textarea th:field="*{content}" class="form-control" id="summernote" name="contentUpdate"
+                                  placeholder="Deskripsi Produk"
+                                  required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Ubah Article</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal HTML -->
+<div th:attr="id=${'delete-'+article.id}" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Produk</h4>
+                    <button
+                            class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah yakin ingin menghapus produk ini?</p>
+                    <p class="text-warning"><small>Data yang dihapus tidak bisa dipulihkan.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a type="button" class="btn btn-danger"
+                       th:href="@{/article/delete/{id}(id=${article.id})}">Hapus</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
